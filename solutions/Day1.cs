@@ -4,30 +4,33 @@ using System.Collections.Generic;
 
 public static class Day1
 {
+    private static List<int> Input => File.ReadAllLines("input/day1.txt")
+                                          .Select(x => int.Parse(x))
+                                          .ToList();
+
     public static void Part1()
     {
-        int numberOfIncreases = CalculateNumberOfIncreases(1);
+        int numberOfIncreases = CalculateNumberOfIncreases(Input);
         System.Console.WriteLine($"Part 1: {numberOfIncreases}");
     }
 
     public static void Part2()
     {
-        int numberOfIncreases = CalculateNumberOfIncreases(3);
+        int numberOfIncreases = CalculateNumberOfIncreases(Input, 3);
         System.Console.WriteLine($"Part 2: {numberOfIncreases}");
     }
 
-    public static int CalculateNumberOfIncreases(int windowSize)
+    private static int CalculateNumberOfIncreases(List<int> measurements, int windowSize = 1)
     {
-        var input = File.ReadAllLines("input/day1.txt").Select(x => int.Parse(x)).ToList();
-        if (input.Count <= windowSize)
+        if (measurements.Count <= windowSize)
             return 0;
 
-        var previousValue = input.SumRange(0, windowSize);
+        var previousValue = measurements.SumRange(0, windowSize);
         var numberOfIncreases = 0;
 
-        for (int i = 1; i + windowSize - 1 < input.Count; i++)
+        for (int i = 1; i + windowSize - 1 < measurements.Count; i++)
         {
-            var currentValue = input.SumRange(i, windowSize);
+            var currentValue = measurements.SumRange(i, windowSize);
 
             if (currentValue > previousValue)
                 numberOfIncreases++;   
@@ -38,7 +41,7 @@ public static class Day1
         return numberOfIncreases;
     }
 
-    public static int SumRange(this List<int> numbers, int startIndex, int count)
+    private static int SumRange(this List<int> numbers, int startIndex, int count)
     {
         int sum = 0;
 

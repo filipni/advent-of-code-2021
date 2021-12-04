@@ -4,25 +4,25 @@ using System.Linq;
 
 public class Day2
 {
-    public record Position(int Horizontal = 0, int Depth = 0, int Aim = 0);
+    private record Position(int Horizontal = 0, int Depth = 0, int Aim = 0);
 
-    public enum Direction { forward, up, down }
+    private enum Direction { forward, up, down }
+
+    private static string[] Input => File.ReadAllLines("input/day2.txt");
 
     public static void Part1()
     {
-        var input = File.ReadAllLines("input/day2.txt");
-        var subPosition = RunCommands(input, MovePosition);
+        var subPosition = RunCommands(Input, MovePosition);
         System.Console.WriteLine($"Part 1: {subPosition.Horizontal * subPosition.Depth}");
     }
 
     public static void Part2()
     {
-        var input = File.ReadAllLines("input/day2.txt");
-        var subPosition = RunCommands(input, MovePositionWithAim);
+        var subPosition = RunCommands(Input, MovePositionWithAim);
         System.Console.WriteLine($"Part 2: {subPosition.Horizontal * subPosition.Depth}");
     }
 
-    public static Position RunCommands(string[] commands, Func<Position, Direction, int, Position> Translate)
+    private static Position RunCommands(string[] commands, Func<Position, Direction, int, Position> Translate)
     {
         Position subPosition = new();
 
@@ -38,7 +38,7 @@ public class Day2
         return subPosition;
     }
 
-    public static Position MovePosition(Position subPosition, Direction direction, int units)
+    private static Position MovePosition(Position subPosition, Direction direction, int units)
         => direction switch
         {
             Direction.forward => subPosition with { Horizontal = subPosition.Horizontal + units },
@@ -47,7 +47,7 @@ public class Day2
             _ => subPosition,
         };
 
-    public static Position MovePositionWithAim(Position subPosition, Direction direction, int units)
+    private static Position MovePositionWithAim(Position subPosition, Direction direction, int units)
         => direction switch
         {
             Direction.forward => subPosition with
