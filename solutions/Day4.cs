@@ -18,11 +18,11 @@ public class Day4
         for (int i = 1; i < rawInput.Length; i++)
         {
             var board = new int[5][];
-            var data = rawInput[i].Split($"{Environment.NewLine}");
+            var rows = rawInput[i].Split($"{Environment.NewLine}");
 
             for (int j = 0; j < 5; j++)
             {
-                board[j] = data[j]
+                board[j] = rows[j]
                             .Split()
                             .Where(x => x != string.Empty)
                             .Select(x => int.Parse(x))
