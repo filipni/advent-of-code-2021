@@ -8,21 +8,21 @@ public class Day2
 
     public enum Direction { forward, up, down }
 
-    public void Part1()
+    public static void Part1()
     {
         var input = File.ReadAllLines("input/day2.txt");
         var subPosition = RunCommands(input, MovePosition);
         System.Console.WriteLine($"Part 1: {subPosition.Horizontal * subPosition.Depth}");
     }
 
-    public void Part2()
+    public static void Part2()
     {
         var input = File.ReadAllLines("input/day2.txt");
         var subPosition = RunCommands(input, MovePositionWithAim);
         System.Console.WriteLine($"Part 2: {subPosition.Horizontal * subPosition.Depth}");
     }
 
-    public Position RunCommands(string[] commands, Func<Position, Direction, int, Position> Translate)
+    public static Position RunCommands(string[] commands, Func<Position, Direction, int, Position> Translate)
     {
         Position subPosition = new();
 
@@ -38,7 +38,7 @@ public class Day2
         return subPosition;
     }
 
-    public Position MovePosition(Position subPosition, Direction direction, int units)
+    public static Position MovePosition(Position subPosition, Direction direction, int units)
         => direction switch
         {
             Direction.forward => subPosition with { Horizontal = subPosition.Horizontal + units },
@@ -47,7 +47,7 @@ public class Day2
             _ => subPosition,
         };
 
-    public Position MovePositionWithAim(Position subPosition, Direction direction, int units)
+    public static Position MovePositionWithAim(Position subPosition, Direction direction, int units)
         => direction switch
         {
             Direction.forward => subPosition with

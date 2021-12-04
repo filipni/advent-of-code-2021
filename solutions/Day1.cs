@@ -3,7 +3,7 @@ using System.Linq;
 
 public class Day1
 {
-    public void Part1()
+    public static void Part1()
     {
         var input = File.ReadAllLines("input/day1.txt").Select(x => int.Parse(x)).ToList();
         if (input.Count <= 1)
@@ -25,7 +25,7 @@ public class Day1
         System.Console.WriteLine($"Part 1: {numberOfIncreases}");
     }
 
-    public void Part2()
+    public static void Part2()
     {
         var input = File.ReadAllLines("input/day1.txt").Select(x => int.Parse(x)).ToList();
         if (input.Count <= 3)
