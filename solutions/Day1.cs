@@ -1,42 +1,33 @@
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
-public class Day1
+public static class Day1
 {
     public static void Part1()
     {
-        var input = File.ReadAllLines("input/day1.txt").Select(x => int.Parse(x)).ToList();
-        if (input.Count <= 1)
-            return;
-
-        var previousValue = input[0];
-        var numberOfIncreases = 0;
-
-        for (int i = 1; i < input.Count; i++)
-        {
-            var currentValue = input[i];
-
-            if (currentValue > previousValue)
-                numberOfIncreases++;   
-
-            previousValue = currentValue;
-        }
-
+        int numberOfIncreases = CalculateNumberOfIncreases(1);
         System.Console.WriteLine($"Part 1: {numberOfIncreases}");
     }
 
     public static void Part2()
     {
-        var input = File.ReadAllLines("input/day1.txt").Select(x => int.Parse(x)).ToList();
-        if (input.Count <= 3)
-            return;
+        int numberOfIncreases = CalculateNumberOfIncreases(3);
+        System.Console.WriteLine($"Part 2: {numberOfIncreases}");
+    }
 
-        var previousValue = input[0] + input[1] + input[2];
+    public static int CalculateNumberOfIncreases(int windowSize)
+    {
+        var input = File.ReadAllLines("input/day1.txt").Select(x => int.Parse(x)).ToList();
+        if (input.Count <= windowSize)
+            return 0;
+
+        var previousValue = input.SumRange(0, windowSize);
         var numberOfIncreases = 0;
 
-        for (int i = 1; i + 2 < input.Count; i++)
+        for (int i = 1; i + windowSize - 1 < input.Count; i++)
         {
-            var currentValue = input[i] + input[i + 1] + input[i + 2];
+            var currentValue = input.SumRange(i, windowSize);
 
             if (currentValue > previousValue)
                 numberOfIncreases++;   
@@ -44,6 +35,16 @@ public class Day1
             previousValue = currentValue;
         }
 
-        System.Console.WriteLine($"Part 2: {numberOfIncreases}");
+        return numberOfIncreases;
+    }
+
+    public static int SumRange(this List<int> numbers, int startIndex, int count)
+    {
+        int sum = 0;
+
+        for (int i = startIndex; i < startIndex + count; i++)
+            sum += numbers[i];
+
+        return sum;
     }
 }

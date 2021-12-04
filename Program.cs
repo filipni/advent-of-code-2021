@@ -4,6 +4,6 @@ namespace advent_of_code_2021
 {
     class Program
     {
-        static void Main(string[] args) => Day2.Part2();
+        static void Main(string[] args) => Day1.Part1();
     }
 }
