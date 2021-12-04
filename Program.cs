@@ -1,2 +1,2 @@
-﻿var day3 = new Day3();
-day3.Part2();
+﻿var day4 = new Day4();
+day4.Part1();
