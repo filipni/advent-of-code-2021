@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 
@@ -5,31 +6,39 @@ public class Day2
 {
     public record Position(int Horizontal = 0, int Depth = 0, int Aim = 0);
 
-    public enum Direction
-    {
-        forward,
-        up,
-        down
-    }
+    public enum Direction { forward, up, down }
 
     public void Part1()
     {
         var input = File.ReadAllLines("input/day2.txt");
+        var subPosition = RunCommands(input, MovePosition);
+        System.Console.WriteLine($"Part 1: {subPosition.Horizontal * subPosition.Depth}");
+    }
+
+    public void Part2()
+    {
+        var input = File.ReadAllLines("input/day2.txt");
+        var subPosition = RunCommands(input, MovePositionWithAim);
+        System.Console.WriteLine($"Part 2: {subPosition.Horizontal * subPosition.Depth}");
+    }
+
+    public Position RunCommands(string[] commands, Func<Position, Direction, int, Position> Translate)
+    {
         Position subPosition = new();
 
-        foreach (var instruction in input)
+        foreach (var instruction in commands)
         {
             var split = instruction.Split();
             Direction.TryParse(split[0], out Direction direction);
             var units = int.Parse(split[1]);
 
-            subPosition = MoveSub(subPosition, direction, units);
+            subPosition = Translate(subPosition, direction, units);
         }
 
-        System.Console.WriteLine($"Part 1: {subPosition.Horizontal * subPosition.Depth}");
+        return subPosition;
     }
 
-    public Position MoveSub(Position subPosition, Direction direction, int units)
+    public Position MovePosition(Position subPosition, Direction direction, int units)
         => direction switch
         {
             Direction.forward => subPosition with { Horizontal = subPosition.Horizontal + units },
@@ -38,24 +47,7 @@ public class Day2
             _ => subPosition,
         };
 
-    public void Part2()
-    {
-        var input = File.ReadAllLines("input/day2.txt");
-        Position subPosition = new();
-
-        foreach (var instruction in input)
-        {
-            var split = instruction.Split();
-            Direction.TryParse(split[0], out Direction direction);
-            var units = int.Parse(split[1]);
-
-            subPosition = MovePositionAndAim(subPosition, direction, units);
-        }
-
-        System.Console.WriteLine($"Part 2: {subPosition.Horizontal * subPosition.Depth}");
-    }
-
-    public Position MovePositionAndAim(Position subPosition, Direction direction, int units)
+    public Position MovePositionWithAim(Position subPosition, Direction direction, int units)
         => direction switch
         {
             Direction.forward => subPosition with
