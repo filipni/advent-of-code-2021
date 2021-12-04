@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 public class Day2
 {
@@ -8,7 +9,18 @@ public class Day2
 
     private enum Direction { forward, up, down }
 
-    private static string[] Input => File.ReadAllLines("input/day2.txt");
+    private static IEnumerable<(Direction, int)> Input
+        => File.ReadAllLines("input/day2.txt").Select(ParseCommand);
+
+    private static (Direction, int) ParseCommand(string command)
+    {
+        var split = command.Split();
+
+        Direction.TryParse(split[0], out Direction direction);
+        var units = int.Parse(split[1]);
+
+        return (direction, units);
+    }
 
     public static void Part1()
     {
@@ -22,18 +34,13 @@ public class Day2
         System.Console.WriteLine($"Part 2: {subPosition.Horizontal * subPosition.Depth}");
     }
 
-    private static Position RunCommands(string[] commands, Func<Position, Direction, int, Position> Translate)
+    private static Position RunCommands(IEnumerable<(Direction, int)> commands,
+                                        Func<Position, Direction, int, Position> Translate)
     {
         Position subPosition = new();
 
-        foreach (var instruction in commands)
-        {
-            var split = instruction.Split();
-            Direction.TryParse(split[0], out Direction direction);
-            var units = int.Parse(split[1]);
-
+        foreach (var (direction, units) in commands)
             subPosition = Translate(subPosition, direction, units);
-        }
 
         return subPosition;
     }
