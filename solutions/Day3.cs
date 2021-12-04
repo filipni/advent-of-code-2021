@@ -4,26 +4,28 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 
-public static class Day3
+public class Day3
 {
-    public static void Part1()
+    private List<int> Input { get; }
+    private int CodeLength { get; }
+
+    public Day3()
     {
         var rawInput = File.ReadAllLines("input/day3.txt");
-        var codeLength = rawInput.First().Count();
-        var parsedInput = rawInput.Select(x => Convert.ToInt32(x, 2)).ToList(); 
+        CodeLength = rawInput.First().Count();
+        Input = rawInput.Select(x => Convert.ToInt32(x, 2)).ToList(); 
+    }
 
-        var powerConsumption = CalculatePowerConsumption(parsedInput, codeLength);
+    public void Part1()
+    {
+        var powerConsumption = CalculatePowerConsumption(Input, CodeLength);
         System.Console.WriteLine($"Part 1: {powerConsumption}");
     }
 
-    public static void Part2()
+    public void Part2()
     {
-        var rawInput = File.ReadAllLines("input/day3.txt");
-        var codeLength = rawInput.First().Count();
-        var parsedInput = rawInput.Select(x => Convert.ToInt32(x, 2)).ToList(); 
-
-        var oxygenGeneratorRating = CalculateGasRating(parsedInput, codeLength, (int zeros, int ones) => zeros > ones);
-        var co2ScrubberRating = CalculateGasRating(parsedInput, codeLength, (int zeros, int ones) => zeros <= ones);
+        var oxygenGeneratorRating = CalculateGasRating(Input, CodeLength, (int zeros, int ones) => zeros > ones);
+        var co2ScrubberRating = CalculateGasRating(Input, CodeLength, (int zeros, int ones) => zeros <= ones);
 
         System.Console.WriteLine($"Part 2: {oxygenGeneratorRating * co2ScrubberRating}");
     }
