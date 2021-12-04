@@ -1,0 +1,16 @@
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.csproj.AssemblyReference.cache
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.GeneratedMSBuildEditorConfig.editorconfig
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.AssemblyInfoInputs.cache
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.AssemblyInfo.cs
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.csproj.CoreCompileInputs.cache
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/advent-of-code-2021
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/advent-of-code-2021.deps.json
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/advent-of-code-2021.runtimeconfig.json
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/advent-of-code-2021.runtimeconfig.dev.json
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/advent-of-code-2021.dll
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/ref/advent-of-code-2021.dll
+/home/filip/git/advent-of-code-2021/bin/Debug/net5.0/advent-of-code-2021.pdb
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.dll
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/ref/advent-of-code-2021.dll
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.pdb
+/home/filip/git/advent-of-code-2021/obj/Debug/net5.0/advent-of-code-2021.genruntimeconfig.cache
