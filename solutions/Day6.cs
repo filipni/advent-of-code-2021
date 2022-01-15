@@ -1,17 +1,15 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 static class Day6
 {
-    private static List<int> Input => File.ReadAllText("input/day6.txt")
+    private static IEnumerable<int> Input => File.ReadAllText("input/day6.txt")
                                                  .Split(',')
-                                                 .Select(x => int.Parse(x))
-                                                 .ToList();
+                                                 .Select(int.Parse);
 
     public static void Part1()
     {
