@@ -56,21 +56,30 @@ public static class Day5
 
     private static IEnumerable<Point> GetStraightLine(Point point1, Point point2)
     {
-        var xStart = Math.Min(point1.X, point2.X);
-        var xEnd = Math.Max(point1.X, point2.X);
-        var yStart = Math.Min(point1.Y, point2.Y);
-        var yEnd = Math.Max(point1.Y, point2.Y);
+        if (point1.X == point2.X)
+        {
+            var count = Math.Abs(point1.Y - point2.Y) + 1;
+            var xRange = Enumerable.Repeat(point1.X, count);
 
-        var count = Math.Max(xEnd - xStart, yEnd - yStart) + 1;
+            var yStart = Math.Min(point1.Y, point2.Y);
+            var yRange = Enumerable.Range(yStart, count);
 
-        var xRange = point1.X == point2.X
-            ? Enumerable.Repeat(point1.X, count)
-            : Enumerable.Range(xStart, count);
-        var yRange = point1.Y == point2.Y
-            ? Enumerable.Repeat(point1.Y, count)
-            : Enumerable.Range(yStart, count);
+            return xRange.Zip(yRange, (x, y) => new Point(x,y));
+        }
+        else if (point1.Y == point2.Y)
+        {
+            var count = Math.Abs(point1.X - point2.X) + 1;
+            var yRange = Enumerable.Repeat(point1.Y, count);
 
-        return xRange.Zip(yRange, (x, y) => new Point(x,y));
+            var xStart = Math.Min(point1.X, point2.X);
+            var xRange = Enumerable.Range(xStart, count);
+
+            return xRange.Zip(yRange, (x, y) => new Point(x,y));
+        }
+        else 
+        {
+            return new List<Point>();
+        }
     }
 
     private static IEnumerable<Point> GetDiagonalLine(Point point1, Point point2)
