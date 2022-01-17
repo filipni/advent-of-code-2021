@@ -82,7 +82,6 @@ public class Day4
                     System.Console.WriteLine($"Part 1: {points * number}");
                     return;
                 }
-
             }
         }
     } 
@@ -108,7 +107,6 @@ public class Day4
                     System.Console.WriteLine($"Part 2: {points * number}");
                     return;
                 }
-
             }
         }
     } 
