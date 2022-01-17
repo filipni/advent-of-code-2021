@@ -35,68 +35,75 @@ public static class Day5
         return parsedInput;
     }
 
-    public static int GetNumberOfOverlappingPoints(IEnumerable<(Point, Point)> input, bool ignoreDiagonalLines = true)
+    public static int GetNumberOfOverlappingPoints(IEnumerable<(Point, Point)> input, bool includeDiagonalLines = false)
     {
         Dictionary<Point, int> coveredPoints = new();
 
-        foreach (var (point1, point2) in input)
+        foreach (var (start, end) in input)
         {
-            var straightLine = point1.X == point2.X || point1.Y == point2.Y; 
-            var points = straightLine
-                ? GetStraightLine(point1, point2)
-                : GetDiagonalLine(point1, point2);
-
+            var points = GetPointsInLine(start, end, includeDiagonalLines); 
             foreach (var point in points)
-                if (straightLine || !ignoreDiagonalLines)
-                    coveredPoints[point] = coveredPoints.GetValueOrDefault(point) + 1;
+                coveredPoints[point] = coveredPoints.GetValueOrDefault(point) + 1;
         }
 
         return coveredPoints.Where(kvp => kvp.Value >= 2).Count();
     }
 
-    private static IEnumerable<Point> GetStraightLine(Point point1, Point point2)
+    private static IEnumerable<Point> GetPointsInLine(Point start, Point end, bool includeDiagonalLines = false)
     {
-        if (point1.X == point2.X)
-        {
-            var count = Math.Abs(point1.Y - point2.Y) + 1;
-            var xRange = Enumerable.Repeat(point1.X, count);
-
-            var yStart = Math.Min(point1.Y, point2.Y);
-            var yRange = Enumerable.Range(yStart, count);
-
-            return xRange.Zip(yRange, (x, y) => new Point(x,y));
-        }
-        else if (point1.Y == point2.Y)
-        {
-            var count = Math.Abs(point1.X - point2.X) + 1;
-            var yRange = Enumerable.Repeat(point1.Y, count);
-
-            var xStart = Math.Min(point1.X, point2.X);
-            var xRange = Enumerable.Range(xStart, count);
-
-            return xRange.Zip(yRange, (x, y) => new Point(x,y));
-        }
-        else 
-        {
+        if (start.X == end.X)
+            return GetPointsInVerticalLine(start, end);
+        else if (start.Y == end.Y)
+            return GetPointsInHorizontalLine(start, end);
+        else if (includeDiagonalLines) 
+            return GetPointsInDiagonalLine(start, end);
+        else
             return new List<Point>();
-        }
     }
 
-    private static IEnumerable<Point> GetDiagonalLine(Point point1, Point point2)
-    {   // Coefficients for linear equation
-        var k = (point1.Y - point2.Y) / (point1.X - point2.X);
-        var m = -(k*point1.X - point1.Y);
+    private static IEnumerable<Point> GetPointsInVerticalLine(Point start, Point end)
+    {
+        var count = Math.Abs(start.Y - end.Y) + 1;
+        var xRange = Enumerable.Repeat(start.X, count);
 
-        var xStart = Math.Min(point1.X, point2.X);
-        var count = Math.Abs(point1.X - point2.X) + 1;
+        var yStart = Math.Min(start.Y, end.Y);
+        var yRange = Enumerable.Range(yStart, count);
+
+        return xRange.Zip(yRange, (x, y) => new Point(x,y));
+    }
+
+    private static IEnumerable<Point> GetPointsInHorizontalLine(Point start, Point end)
+    {
+        var count = Math.Abs(start.X - end.X) + 1;
+        var yRange = Enumerable.Repeat(start.Y, count);
+
+        var xStart = Math.Min(start.X, end.X);
+        var xRange = Enumerable.Range(xStart, count);
+
+        return xRange.Zip(yRange, (x, y) => new Point(x,y));
+    }
+
+    private static IEnumerable<Point> GetPointsInDiagonalLine(Point start, Point end)
+    {   // Coefficients for linear equation
+        var k = (start.Y - end.Y) / (start.X - end.X);
+        var m = -(k*start.X - start.Y);
+
+        var xStart = Math.Min(start.X, end.X);
+        var count = Math.Abs(start.X - end.X) + 1;
         var xRange = Enumerable.Range(xStart, count);
 
         return xRange.Select(x => new Point(x, k*x + m));
     }
 
     public static void Part1()
-        => Console.WriteLine($"Part 1: {GetNumberOfOverlappingPoints(GetInput())}");
+    {
+        var numberOfOverlappingPoints = GetNumberOfOverlappingPoints(GetInput());
+        Console.WriteLine($"Part 1: {numberOfOverlappingPoints}");
+    }
 
     public static void Part2()
-        => Console.WriteLine($"Part 2: {GetNumberOfOverlappingPoints(GetInput(), false)}");
+    {
+        var numberOfOverlappingPoints = GetNumberOfOverlappingPoints(GetInput(), true);
+        Console.WriteLine($"Part 2: {numberOfOverlappingPoints}");
+    }
 }
