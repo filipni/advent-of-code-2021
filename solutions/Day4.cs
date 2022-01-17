@@ -48,17 +48,17 @@ public class Day4
     {
         for (int i = 0; i < BoardSize; i++)
         {
-            var row_marks = 0;
-            var column_marks = 0;
+            var rowMarks = 0;
+            var columnMarks = 0;
             for (int j = 0; j < BoardSize; j++)
             {
                 if (board[i][j] == 'x')
-                    row_marks++;
+                    rowMarks++;
                 if (board[j][i] == 'x')
-                    column_marks++;
+                    columnMarks++;
             }
 
-            if (row_marks == 5 || column_marks == 5) return true;
+            if (rowMarks == 5 || columnMarks == 5) return true;
         }
 
         return false;
