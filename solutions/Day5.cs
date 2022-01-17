@@ -74,18 +74,15 @@ public static class Day5
     }
 
     private static IEnumerable<Point> GetDiagonalLine(Point point1, Point point2)
-    {
-        var startPoint = point1.X < point2.X ? point1 : point2;
-        var endPoint = point1.X > point2.X ? point1 : point2;
+    {   // Coefficients for linear equation
+        var k = (point1.Y - point2.Y) / (point1.X - point2.X);
+        var m = -(k*point1.X - point1.Y);
 
-        var count = endPoint.X - startPoint.X + 1;
-        var xRange = Enumerable.Range(startPoint.X, count);
+        var xStart = Math.Min(point1.X, point2.X);
+        var count = Math.Abs(point1.X - point2.X) + 1;
+        var xRange = Enumerable.Range(xStart, count);
 
-        var yRange = endPoint.Y > startPoint.Y
-            ? Enumerable.Range(startPoint.Y, count)
-            : Enumerable.Range(endPoint.Y, count).Reverse();
-
-        return xRange.Zip(yRange, (x, y) => new Point(x, y));
+        return xRange.Select(x => new Point(x, k*x + m));
     }
 
     public static void Part1()
