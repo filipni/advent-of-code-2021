@@ -24,13 +24,20 @@ public static class Day12
 
     public static void Part1()
     {
-        var foundPaths = FindPaths(new HashSet<string>(), new List<string>(), "start");
+        var foundPaths = FindPaths(new HashSet<string>(), new List<string>(), "start", true);
         System.Console.WriteLine($"Part 1: {foundPaths.Count()}");
+    }
+
+    public static void Part2()
+    {
+        var foundPaths = FindPaths(new HashSet<string>(), new List<string>(), "start", false);
+        System.Console.WriteLine($"Part 2: {foundPaths.Count()}");
     }
 
     private static IEnumerable<IEnumerable<string>> FindPaths(IEnumerable<string> visitedSmallCaves,
                                                               IEnumerable<string> path,
-                                                              string currentCave)
+                                                              string currentCave,
+                                                              bool hasVisitedSingleSmallCaveTwice)
     {
         path = path.Append(currentCave);
         if (currentCave == "end")
@@ -44,10 +51,13 @@ public static class Day12
         var neighbouringCaves = _neighbours[currentCave];
 
         foreach (var cave in neighbouringCaves)
-        {
-            if (visitedSmallCaves.Contains(cave)) continue;
+        {   
+            if (cave == "start") continue;
 
-            var foundPaths = FindPaths(visitedSmallCaves, path, cave);
+            var hasVisitedSmallCaveBefore = visitedSmallCaves.Contains(cave);
+            if (hasVisitedSmallCaveBefore && hasVisitedSingleSmallCaveTwice) continue;
+
+            var foundPaths = FindPaths(visitedSmallCaves, path, cave, hasVisitedSmallCaveBefore || hasVisitedSingleSmallCaveTwice);
             paths = paths.Concat(foundPaths);
         }
 
