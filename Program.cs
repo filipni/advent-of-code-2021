@@ -1,1 +1,1 @@
-﻿Day11.Solution();
+﻿Day12.Part1();
