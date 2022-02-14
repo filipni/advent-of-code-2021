@@ -90,7 +90,7 @@ public static class Day13
 
     public static void Part2()
     {
-        var folds = Folds;
+        var folds = Folds.ToList();
         var dots = Fold(Dots, folds, folds.Count());
         Console.WriteLine("Part 2:");
         PrintDots(dots);
