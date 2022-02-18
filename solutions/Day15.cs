@@ -97,28 +97,26 @@ public static class Day15
 
     private static (Dictionary<Vertex, int> dist, Dictionary<Vertex, Vertex> prev) Dijkstra(Graph graph, Vertex source)
     {
-        var q = new HashSet<Vertex>();
         Dictionary<Vertex, int> dist = new(); 
         Dictionary<Vertex, Vertex> prev = new();
 
-        foreach (var vertex in graph.Vertices)
-        {
-            dist[vertex] = int.MaxValue;
-            prev[vertex] = null;
-            q.Add(vertex);
-        }
-
         dist[source] = 0;
+        var q = new PriorityQueue<Vertex, int>();
 
-        while (q.Any())
+        foreach (var v in graph.Vertices)
         {
-            var u = q.OrderBy(v => dist[v]).First();
+            if (v != source)
+            {
+                dist[v] = int.MaxValue;
+                prev[v] = null;
+            }
+        }
+        
+        q.Enqueue(source, dist[source]);
 
-            q.Remove(u);
-
-            var neighbours = graph.Edges.Keys.Where(e => e.V1 == u)
-                                             .Select(e => e.V2)
-                                             .Where(v => q.Contains(v));
+        while (q.TryDequeue(out var u, out _))
+        {
+            var neighbours = graph.Edges.Keys.Where(e => e.V1 == u).Select(e => e.V2);
 
             foreach (var v in neighbours)
             {
@@ -127,6 +125,7 @@ public static class Day15
                 {
                     dist[v] = alt;
                     prev[v] = u;
+                    q.Enqueue(v, alt);
                 }
             }
         }
