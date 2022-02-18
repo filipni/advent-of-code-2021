@@ -1,1 +1,1 @@
-﻿Day14.Part2();
+﻿Day15.Part1();
