@@ -9,12 +9,30 @@ public static class Day15
     private record Edge(Vertex V1, Vertex V2);
     private record Graph(List<Vertex> Vertices, Dictionary<Edge, int> Edges);
 
-    private static Graph CreateGraph()
+    private static Graph CreateGraph(int repeats = 1)
     {
         int[][] riskLevels = File.ReadAllLines("input/day15.txt").Select(ParseDigits).ToArray();
 
         var height = riskLevels.Length;
         var width = riskLevels[0].Length;
+
+        var extendedHeight = height * repeats;
+        var extendedWidth = width * repeats;
+
+        int[][] extendedRiskLevels = new int[extendedHeight][];
+        for (int i = 0; i < extendedHeight; i++)
+        {
+            extendedRiskLevels[i] = new int[extendedWidth];
+            for (int j = 0; j < extendedWidth; j++)
+            {
+                var riskLevel = riskLevels[i % height][j % width] + i / height + j / width;
+                extendedRiskLevels[i][j] = riskLevel >= 10 ? riskLevel % 10 + 1 : riskLevel;
+            }
+        }
+
+        riskLevels = extendedRiskLevels;
+        width = extendedWidth;
+        height = extendedWidth;
 
         List<Vertex> vertices = new();
         Dictionary<Edge, int> edges = new();
@@ -57,7 +75,6 @@ public static class Day15
     private static int[] ParseDigits(string digits)
         => digits.Select(digit => int.Parse(digit.ToString())).ToArray();
 
-
     public static void Part1()
     {
         var graph = CreateGraph();
@@ -70,7 +87,12 @@ public static class Day15
 
     public static void Part2()
     {
+        var graph = CreateGraph(5);
+        var source = new Vertex(0, 0);
+        var (dist, prev) = Dijkstra(graph, source);
 
+        var destination = graph.Vertices.OrderByDescending(vertix => vertix.X + vertix.Y).First();
+        System.Console.WriteLine($"Part 2: {dist[destination]}");
     }
 
     private static (Dictionary<Vertex, int> dist, Dictionary<Vertex, Vertex> prev) Dijkstra(Graph graph, Vertex source)
